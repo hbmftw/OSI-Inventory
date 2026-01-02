@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 public class VisualGUI {
 	private static JFrame mainInventoryFrame;
 	private static JPanel inventoryTablePanel;
+	private FooterPanel footerPanel;
 	// private static JMenuBar menuBar;
 	// private static JMenu fileMenu;
 	// private static JMenu editMenu;
@@ -96,23 +97,23 @@ public class VisualGUI {
 		inventoryTablePanel = new JPanel();
 		JPanel leftPanel = new JPanel();
 		JPanel rightPanel = new JPanel();
-		JPanel footerPanel = new JPanel();
+		FooterPanel footerPanel = new FooterPanel();
 
 		 // Set panel background colors and sizes
 		
-		mainPanel.setBackground(Color.GRAY);
+		mainPanel.setBackground(Color.LIGHT_GRAY);
 		inventoryTablePanel.setBackground(Color.WHITE);
-		leftPanel.setBackground(Color.GRAY);
-		rightPanel.setBackground(Color.GRAY);
-		footerPanel.setBackground(Color.GRAY);
+		leftPanel.setBackground(Color.LIGHT_GRAY);
+		rightPanel.setBackground(Color.LIGHT_GRAY);
+		//footerPanel.setBackground(Color.GRAY); /*FooterPanel is handled separately in ui/FooterPanel.java */
 
 		 // Set panel preferred sizes
 
-		mainPanel.setPreferredSize(new Dimension(700, 50));
+		mainPanel.setPreferredSize(new Dimension(0, 20));//Header Panel
 		inventoryTablePanel.setPreferredSize(new Dimension(700, 600));
-		leftPanel.setPreferredSize(new Dimension(50, 600));
-		rightPanel.setPreferredSize(new Dimension(50, 600));
-		footerPanel.setPreferredSize(new Dimension(700, 50));
+		leftPanel.setPreferredSize(new Dimension(20, 0));
+		rightPanel.setPreferredSize(new Dimension(20, 0));
+		//footerPanel.setPreferredSize(new Dimension(0, 20));
 
 		 // Add panels to the frame's content pane with BorderLayout positions
 
@@ -312,6 +313,15 @@ public class VisualGUI {
                 // exit program if "EXIT" menu item is clicked
 				System.exit(0); 
 			}
+		}
+	}
+
+	/*-------------------------------Methods----------------------------------*/
+	public FooterPanel getFooterPanel() {return footerPanel;}
+	public void refreshFooterPanel() {
+		if (footerPanel != null) {
+			footerPanel.revalidate();
+			footerPanel.repaint();
 		}
 	}
 
