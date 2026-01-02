@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+        "type": "java",
+        "name": "VisualGUI",
+        "request": "launch",
+        "mainClass": "ui.VisualGUI",
+        "projectName": "OSI_5f200bd6"
+    },
+    {
+        "type": "java",
+        "name": "Launch VisualGUI",
+        "request": "launch",
+        "mainClass": "ui.VisualGUI",
+        "projectName": "OSI"
+    }
+]
+}

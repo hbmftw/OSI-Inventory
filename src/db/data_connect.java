@@ -5,15 +5,25 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class data_connect {
+    private String dbUrl;
+    private String dbUser;
+    private String dbPassword;
 
+    private ConfigLoader configLoader = new ConfigLoader();
+
+    public data_connect() {
+        this.dbUrl = configLoader.getProperty("db.address");
+        this.dbUser = configLoader.getProperty("db.username");
+        this.dbPassword = configLoader.getProperty("db.password");
+    }
     Connection conn = null;
 
     public void connectDB() {
-        String url = "";
-        String user = "";
-        String password = "";
 
-        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+        String user = dbUser;
+        String password = dbPassword;
+
+        try (Connection conn = DriverManager.getConnection(dbUrl, user, password)) {
             if (conn != null) {
                 System.out.println("Connected to the database!");
             } else {
@@ -29,5 +39,6 @@ public class data_connect {
         conn.close();
     }
 
+    
 
 }

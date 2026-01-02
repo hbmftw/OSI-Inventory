@@ -19,17 +19,27 @@ import javax.swing.JTable;
 
 public class OpenDatabaseTable extends JPanel {
 
+    private ConfigLoader configLoader = new ConfigLoader();
+    private String dbUrl;
+    private String dbUser;
+    private String dbPassword;
+
+    public OpenDatabaseTable() {
+        this.dbUrl = configLoader.getProperty("db.address");
+        this.dbUser = configLoader.getProperty("db.username");
+        this.dbPassword = configLoader.getProperty("db.password");
+    }
     
     public JPanel getDatabaseTablePanel() {
 
-        String url = "";
-        String user = "";
-        String password = "";
+        String url = dbUrl;
+        String user = dbUser;
+        String password = dbPassword;
 
         Vector<Vector<Object>> data = new Vector<>();
         Vector<String> columnNames = new Vector<>();
 
-        String sql = "SELECT * FROM osidb.osi_table;";
+        String sql = "SELECT * FROM OSI-TEST.osi_table;";
 
         try (Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
@@ -58,7 +68,7 @@ public class OpenDatabaseTable extends JPanel {
         JTable table = new JTable(data, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
 
-        //Add scroll to jpanel
+        //Add scroll to JPanel
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(scrollPane, BorderLayout.CENTER);
         return panel;

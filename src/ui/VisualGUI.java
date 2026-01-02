@@ -1,6 +1,5 @@
 package ui;
 
-import db.data_connect;
 import db.OpenDatabaseTable;
 import resources.JPanelPrinter;
 
