@@ -8,5 +8,4 @@ public class CentralPanel extends javax.swing.JPanel {
         this.setPreferredSize(new java.awt.Dimension(700, 600));
         this.setVisible(true);
     }
-    
 }

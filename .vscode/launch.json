@@ -3,6 +3,13 @@
   "configurations": [
     {
         "type": "java",
+        "name": "OSI",
+        "request": "launch",
+        "mainClass": "app.OSI",
+        "projectName": "OSI_5f200bd6"
+    },
+    {
+        "type": "java",
         "name": "VisualGUI",
         "request": "launch",
         "mainClass": "ui.VisualGUI",

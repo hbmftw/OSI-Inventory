@@ -1,5 +1,8 @@
 {
   "java.project.referencedLibraries": [
     "src/lib/*.jar"
-  ]
+],
+"cSpell.words": [
+    "mysqldump"
+]
 }

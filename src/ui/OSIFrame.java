@@ -16,6 +16,8 @@ public class OSIFrame extends JFrame {
         // Initialize the JFrame with a title
         super("OSI Model Visualization");
 
+        System.out.println("OSIFrame Open");//Testing purpose ONLY!!!
+
         this.setSize(800, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
@@ -25,7 +27,7 @@ public class OSIFrame extends JFrame {
         this.setIconImage(icon.getImage());
 
         //initialize Panels
-
+//TODO: Need to change EAST panel to a scroll bar!!!!!!!!!!!! POPUP windows need to locked to FRAME!!!!
         
         //footerPanel = new FooterPanel();
         this.add(new HeaderPanel(), BorderLayout.NORTH);
@@ -34,7 +36,7 @@ public class OSIFrame extends JFrame {
         this.add(new CentralPanel(), BorderLayout.CENTER);
         //Add West Panel last to ensure it is on top if overlapping occurs
         this.add(new SidePanel(), BorderLayout.WEST);
-        this.add(footerPanel, BorderLayout.SOUTH);
+        this.add(new FooterPanel(), BorderLayout.SOUTH);
 
         this.setLocationRelativeTo(null); // Center the frame on the screen
         this.setVisible(rootPaneCheckingEnabled);
