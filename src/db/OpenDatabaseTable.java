@@ -2,6 +2,7 @@ package db;
 
 /*
  * This will be the basic template on opening database tables and displaying the contents
+ * TODO: this will need to be eventually removed
  */
 
 import java.awt.BorderLayout;

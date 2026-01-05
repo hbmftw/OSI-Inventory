@@ -3,6 +3,8 @@ package ui;
 import resources.JPanelPrinter;
 
 import java.awt.Color;
+import java.util.Objects;
+
 import javax.swing.JDialog;
 
 import javax.swing.JMenu;
@@ -11,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import db.DatabaseBackup;
+import db.OpenDataPanel;
 
 public class OSIMenu extends JMenuBar {
     
@@ -78,17 +81,41 @@ public class OSIMenu extends JMenuBar {
         exitItem.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
+                // Close DB connection
+                System.out.println("Closing DB!");
+                try {
+                    // Check if DB is open & if so close
+                    if (dbService != null && !dbService.isClosed()) {
+                        dbService.close();
+                    }
+                }
+                catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                // Close Application
                 System.exit(0);
             }
         });
 
     // Add action Listener to "Connect to Database" menu item
         connectItem.addActionListener(e -> {
-            JDialog connectDialog = new JDialog(frame, "Database Connection", true);
-            connectDialog.setSize(400, 300);
-            connectDialog.setLocationRelativeTo(frame);
-            connectDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            connectDialog.setVisible(true);
+            // Create and show a new login window
+            JDialog dlg = new JDialog(frame, "OSI Login", true);
+            dlg.setSize(300, 200);
+            dlg.setLocationRelativeTo(frame);
+            OpenDataPanel pnl = new OpenDataPanel(dbService, () -> {
+                //not making it to the next println from here
+                System.out.println(Objects.toString(frame, "No ConnectionFound"));
+                if (frame != null && frame.getFooterPanel() != null) {
+                    frame.getFooterPanel().updateStatus(dbService.getDbUser());
+                    System.out.println("if Statement Refresh Footer");
+                }
+            });
+            dlg.getContentPane().add(pnl);
+            dlg.setSize(300, 200);
+            dlg.setLocationRelativeTo(frame);
+            dlg.setModal(true);
+            dlg.setVisible(true);
         });
 
 

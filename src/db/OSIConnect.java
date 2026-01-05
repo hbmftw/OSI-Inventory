@@ -41,6 +41,7 @@ public class OSIConnect implements AutoCloseable {
     @FunctionalInterface
     public interface ConnectionFactory { Connection create() throws SQLException; }
     private final ConnectionFactory connectionFactory;
+    private boolean isManagerClosed = false;
 
     //Default values for the connection pool
     private static final String DEFAULT_URL = configLoader.getProperty("db.address");
@@ -66,9 +67,10 @@ public class OSIConnect implements AutoCloseable {
         this.pool = new LinkedBlockingDeque<>();
         if (factory != null) this.connectionFactory = factory;
         else this.connectionFactory = () -> DriverManager.getConnection(this.jdbcUrl, this.DB_USER, this.DB_PASSWORD);
+        
     }
 
-    //TODO: Getter for JDBC URL needs to acquire the actual OSI database URL from config file
+
     //Getter for the JDBC URL
     //public String getJdbcUrl() { return jdbcUrl; }
     //Getter for the database user
@@ -80,6 +82,8 @@ public class OSIConnect implements AutoCloseable {
     public void setCredentials(String user, String password) {
         DB_USER = user;
         DB_PASSWORD = password;
+
+        
     }
 
     /*
@@ -89,8 +93,9 @@ public class OSIConnect implements AutoCloseable {
     public Connection getConnection() throws SQLException, InterruptedException {
         // Attempt to acquire a connection from the pool within the specified timeout period
         Connection c = pool.poll(acquireTimeoutMs, TimeUnit.MILLISECONDS);
+        
         if (c != null) return c;
-
+        
         //Try to create a new connection if the pool limit is not reached
         while (true) {
             int current = totalConnections.get();
@@ -99,6 +104,7 @@ public class OSIConnect implements AutoCloseable {
                     // Create a new connection using the connection factory
                     Connection newConnection = connectionFactory.create();
                     allConnections.add(newConnection);
+                    System.out.println(newConnection);
                     return newConnection;
                 }
                 //Else, try again
@@ -139,6 +145,12 @@ public class OSIConnect implements AutoCloseable {
         }
         allConnections.clear();
         pool.clear();
+        this.isManagerClosed = true;
+        System.out.println("DB is Closed!");
+    }
+    
+    public boolean isClosed() {
+        return isManagerClosed;
     }
     
 }

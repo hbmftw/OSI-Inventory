@@ -2,24 +2,27 @@ package ui;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+
+import db.OSIConnect;
+
 import java.awt.BorderLayout;
+import java.sql.SQLException;
 
 public class OSIFrame extends JFrame {
-
-    public String dbStatus = "DB Status: Not Connected";
-    public String getDbStatus() {return dbStatus;}
+    
+ 
 
     private FooterPanel footerPanel;
 
 
-    public OSIFrame(String title) {
+    public OSIFrame(String title, db.OSIConnect dbService) {
         // Initialize the JFrame with a title
         super("OSI Model Visualization");
 
         System.out.println("OSIFrame Open");//Testing purpose ONLY!!!
 
         this.setSize(800, 800);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
         // Set an icon for the frame (assuming the image is in the resources folder)
@@ -41,6 +44,25 @@ public class OSIFrame extends JFrame {
         this.setLocationRelativeTo(null); // Center the frame on the screen
         this.setVisible(rootPaneCheckingEnabled);
 
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                // Close DB connection
+                System.out.println("Closing DB!");
+                try {
+                    // Check if DB is open & if so close
+                    if (dbService != null && !dbService.isClosed()) {
+                        dbService.close();
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                // Close Application
+                System.exit(0);
+            }
+        });
+
     }
 
     public FooterPanel getFooterPanel() {return footerPanel;}
@@ -61,5 +83,4 @@ public class OSIFrame extends JFrame {
             centralPanel.repaint();
         }
     }
-
 }

@@ -1,8 +1,12 @@
 package db;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -38,7 +42,7 @@ public class OpenDataPanel extends JPanel {
     //Method to create the DB connection panel
     private void dbConnect() {
         //Set layout and background color
-        this.setLayout(new GridLayout(3, 2, 5, 5));
+        this.setLayout(new FlowLayout());
         this.setBackground(Color.LIGHT_GRAY);
 
         //Create and add components (username field)
@@ -67,11 +71,16 @@ public class OpenDataPanel extends JPanel {
             conn.setCredentials(getUsername(), getPassword());
             //Attempt to connect to the database
             try {
-                conn.getConnection().close();
+                conn.getConnection();
+                if (conn != null){
+                    try {conn.close();}catch (Exception se){se.printStackTrace();}
+                    
+                }
                 SwingUtilities.invokeLater(() -> {
                     if (onLogin != null) onLogin.run();
                     SwingUtilities.getWindowAncestor(OpenDataPanel.this).dispose();
                 });
+                System.out.println("dbConnect() Finish connection!");
             } catch (Exception ex) {
                 System.out.println("Connection failed: " + ex.getMessage());
             }
